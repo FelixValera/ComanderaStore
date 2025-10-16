@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteBase /ComanderaStore/
+
+# Redirigir la raíz al index.php dentro de public
+RewriteRule ^$ public/index.php [L]
+
+# Redirigir todo lo demás al public
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/index.php [L]
