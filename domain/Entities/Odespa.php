@@ -1,5 +1,5 @@
 <?php
-namespace Core\Entities;
+namespace Domain\Entities;
 
 class Odespa {
 

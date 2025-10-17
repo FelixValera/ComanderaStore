@@ -1,11 +1,11 @@
 <?php
-namespace Core\Repositories;
+namespace Domain\Repositories;
 
 use Core\Database\IdataSource;
-use Core\Entities\Oareti;
-use Core\Entities\Item;
+use Domain\Entities\Odespa;
+use Domain\Entities\Item;
 
-class OaretiRepository {
+class OdespaRepository {
 
     private IdataSource $dataSource; 
 
@@ -14,31 +14,30 @@ class OaretiRepository {
         $this->dataSource = $db;
     }
 
-    public function getOaretis($deposito,$fecha){
+    public function getOdespas($deposito,$fecha){
 
         $result = [];
 
-        $oaretis = $this->dataSource->getOareti('oareti',$deposito,$fecha);
+        $odespas = $this->dataSource->getOdespa('odespa',$deposito,$fecha);
 
         //Si no esta vacio 
-        if(!empty($oaretis)){   
+        if(!empty($odespas)){   
 
-            foreach ($oaretis as $valor){
+            foreach ($odespas as $valor){
 
-                $oareti = new Oareti(
+                $odespa = new Odespa(
                     $valor['FCRMVH_CODFOR'],
                     $valor['FCRMVH_NROFOR'],
                     $valor['Factura'],
                     $valor['NroFactura'],
                     $valor['FCRMVH_DEPOSI'],
                     $valor['FCRMVH_NOMBRE'],
-                    $valor['FCRMVH_ESTAUT'],
                     $valor['Fecha'],
                     $valor['Hora'],
                     $valor['Pendiente']
                 );
 
-                $items = $this->dataSource->getItems($oareti->codfor,$oareti->nrofor);
+                $items = $this->dataSource->getItems($odespa->codfor,$odespa->nrofor);
 
                 foreach ($items as $valor){
 
@@ -49,10 +48,11 @@ class OaretiRepository {
                         $valor['Pendiente']
                     );
 
-                    $oareti->setItems($item);
+                    $odespa->setItems($item);
                 }
 
-                array_push($result,$oareti);
+
+                array_push($result,$odespa);
             }
 
             return $result;
@@ -63,3 +63,4 @@ class OaretiRepository {
         }
     }
 }
+

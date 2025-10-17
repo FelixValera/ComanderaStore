@@ -3,9 +3,9 @@ require_once '../autoload.php';
 require_once '../config.php';
 
 use Core\Database\SqlServerDataSource;
-use Core\Entities\Item;
-use Core\Repositories\OaretiRepository;
-use Core\Repositories\OdespaRepository;
+use Domain\Entities\Item;
+use Domain\Repositories\OaretiRepository;
+use Domain\Repositories\OdespaRepository;
 
 $datasource = SqlServerDataSource::getInstance();
 
