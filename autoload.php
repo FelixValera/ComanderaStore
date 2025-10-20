@@ -2,9 +2,10 @@
 
 spl_autoload_register(function($className){
    
-    $className = str_replace('\\','/',$className);
-
-    $className = '../'.$className.'.php';
+    $className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
+    $file = __DIR__ . DIRECTORY_SEPARATOR . $className . '.php';
     
-    require_once $className;
+    if (file_exists($file)) {
+        require_once $file;
+    }
 });

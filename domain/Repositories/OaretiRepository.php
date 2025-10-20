@@ -7,18 +7,18 @@ use Domain\Entities\Item;
 
 class OaretiRepository {
 
-    private IdataSource $dataSource; 
+    private IdataSource $_dataSource; 
 
     public function __construct(IdataSource $db){
        
-        $this->dataSource = $db;
+        $this->_dataSource = $db;
     }
 
     public function getOaretis($deposito,$fecha){
 
         $result = [];
 
-        $oaretis = $this->dataSource->getOareti('oareti',$deposito,$fecha);
+        $oaretis = $this->_dataSource->getOareti('oareti',$deposito,$fecha);
 
         //Si no esta vacio 
         if(!empty($oaretis)){   
@@ -38,7 +38,7 @@ class OaretiRepository {
                     $valor['Pendiente']
                 );
 
-                $items = $this->dataSource->getItems($oareti->codfor,$oareti->nrofor);
+                $items = $this->_dataSource->getItems($oareti->codfor,$oareti->nrofor);
 
                 foreach ($items as $valor){
 

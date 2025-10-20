@@ -3,7 +3,7 @@ namespace Domain\Entities;
 
 class Odespa {
 
-    private $items = [];
+    private $_items = [];
 
     public $codfor;
     public $nrofor;
@@ -39,7 +39,7 @@ class Odespa {
 
     public function setItems(Item $item){
         
-        $this->items[] = $item;
+        $this->_items[] = $item;
     } 
     
     public function toArray(){

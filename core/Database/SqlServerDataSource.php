@@ -6,7 +6,7 @@ use PDOException;
 
 class SqlServerDataSource implements IdataSource {
 
-    private ?PDO $pdo=null;
+    private ?PDO $_pdo=null;
     
     static public $instance=null;
 
@@ -14,8 +14,8 @@ class SqlServerDataSource implements IdataSource {
         
         try {
 
-            $this->pdo = new PDO("sqlsrv:Server=$serverName;Database=$dataBase", $user, $password);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->_pdo = new PDO("sqlsrv:Server=$serverName;Database=$dataBase", $user, $password);
+            $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             echo "Conexión exitosa";
 
         } catch (PDOException $e) {
@@ -76,7 +76,7 @@ class SqlServerDataSource implements IdataSource {
         HAVING 
             SUM(I.FCRMVI_CANTID) > 0;";
         
-        $stmt= $this->pdo->prepare($sql);
+        $stmt= $this->_pdo->prepare($sql);
         $stmt->bindValue(':order',$order);
         $stmt->bindValue(':deposito',$deposito);
         $stmt->bindValue(':fecha',$fecha);
@@ -126,7 +126,7 @@ class SqlServerDataSource implements IdataSource {
         HAVING 
             SUM(I.FCRMVI_CANTID) > 0";
         
-        $stmt= $this->pdo->prepare($sql);
+        $stmt= $this->_pdo->prepare($sql);
         $stmt->bindValue(':order',$order);
         $stmt->bindValue(':deposito',$deposito);
         $stmt->bindValue(':fecha',$fecha);
@@ -167,7 +167,7 @@ class SqlServerDataSource implements IdataSource {
             FCRMVI_DEPOSI
         HAVING SUM(FCRMVI_CANTID) > 0";
         
-        $stmt= $this->pdo->prepare($sql);
+        $stmt= $this->_pdo->prepare($sql);
         $stmt->bindValue(':order',$order);
         $stmt->bindValue(':nroOrder',$nroOrder);
         $stmt->execute();

@@ -7,18 +7,18 @@ use Domain\Entities\Item;
 
 class OdespaRepository {
 
-    private IdataSource $dataSource; 
+    private IdataSource $_dataSource; 
 
     public function __construct(IdataSource $db){
        
-        $this->dataSource = $db;
+        $this->_dataSource = $db;
     }
 
     public function getOdespas($deposito,$fecha){
 
         $result = [];
 
-        $odespas = $this->dataSource->getOdespa('odespa',$deposito,$fecha);
+        $odespas = $this->_dataSource->getOdespa('odespa',$deposito,$fecha);
 
         //Si no esta vacio 
         if(!empty($odespas)){   
@@ -37,7 +37,7 @@ class OdespaRepository {
                     $valor['Pendiente']
                 );
 
-                $items = $this->dataSource->getItems($odespa->codfor,$odespa->nrofor);
+                $items = $this->_dataSource->getItems($odespa->codfor,$odespa->nrofor);
 
                 foreach ($items as $valor){
 
@@ -51,7 +51,6 @@ class OdespaRepository {
                     $odespa->setItems($item);
                 }
 
-
                 array_push($result,$odespa);
             }
 
@@ -63,4 +62,3 @@ class OdespaRepository {
         }
     }
 }
-
