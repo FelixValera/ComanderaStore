@@ -10,7 +10,7 @@ class SqlServerDataSource implements IdataSource {
     
     static public $instance=null;
 
-    private function __construct($serverName = SERVER_NAME_TEST,$dataBase = DATABASE,$user = USER,$password = PASSWORD){
+    private function __construct($serverName = SERVER_NAME,$dataBase = DATABASE,$user = USER,$password = PASSWORD){
         
         try {
 
@@ -22,14 +22,6 @@ class SqlServerDataSource implements IdataSource {
 
             echo "Error de conexión: " . $e->getMessage();
         }
-
-        /*
-        try{
-            $this->pdo= new PDO("mysql:host=$host;dbname=$db;charset=utf8",$user,$pass);
-        }
-        catch(PDOException $e){
-            echo $e->getMessage();
-        }*/
     }
 
     // Patron de diseño singleton de instancias garantiza que la clase solo tenga una instancia 
@@ -74,7 +66,8 @@ class SqlServerDataSource implements IdataSource {
             H.FCRMVH_NOMBRE, 
             H.FCRMVH_FECALT
         HAVING 
-            SUM(I.FCRMVI_CANTID) > 0;";
+            SUM(I.FCRMVI_CANTID) > 0
+        ORDER BY H.FCRMVH_FECALT;";
         
         $stmt= $this->_pdo->prepare($sql);
         $stmt->bindValue(':order',$order);
@@ -124,7 +117,8 @@ class SqlServerDataSource implements IdataSource {
             H.FCRMVH_ESTAUT, 
             H.FCRMVH_FCHAUT
         HAVING 
-            SUM(I.FCRMVI_CANTID) > 0";
+            SUM(I.FCRMVI_CANTID) > 0
+        ORDER BY H.FCRMVH_FCHAUT;";
         
         $stmt= $this->_pdo->prepare($sql);
         $stmt->bindValue(':order',$order);

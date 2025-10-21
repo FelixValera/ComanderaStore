@@ -29,6 +29,12 @@ class Item{
             'pendientes' => $this->pendientes,
         ];
     }
+
+    //Devuelve el valor tipo entero
+    public function getPendientes(){
+
+        return (int)$this->pendientes;
+    }
 }
 
 /*

@@ -3,8 +3,7 @@ namespace Domain\Entities;
 
 class Oareti {
 
-    private $_items = [];
-
+    public $items = [];
     public $codfor;
     public $nrofor;
     public $codfac;
@@ -42,8 +41,23 @@ class Oareti {
     
     public function setItems(Item $item){
         
-        $this->_items[] = $item;
+        $this->items[] = $item;
     } 
+
+    public function getDelay():int{ 
+
+        // Crear objeto DateTime con la hora proporcionada
+        $horaProporcionada = \DateTime::createFromFormat('H:i',$this->hora);
+
+        // Obtener la hora actual del sistema
+        //$horaActual = \DateTime::createFromFormat('H:i','19:11'); PRUEBA
+        $horaActual = new \DateTime();
+        
+        // Calcular la diferencia
+        $diferencia = $horaActual->diff($horaProporcionada);
+        
+        return $diferencia->i;
+    }
 
     public function toArray(){
 
