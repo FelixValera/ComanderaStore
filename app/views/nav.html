@@ -1,9 +1,15 @@
 <nav class="bg-white shadow-md fixed top-0 left-0 w-full z-10">
-    <div class="container mx-auto flex items-center justify-between p-4">
-        <!-- Logo -->
-        <div class="flex items-center space-x-3">
-            <img src="<?php echo $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/ComanderaStore/public/img/logo-small.png'; ?>" alt="Logo" class="w-24 h-12 object-contain">
-            <span class="text-xl font-bold text-gray-700">Comandera Store</span>
-        </div>
+  <div class="container mx-auto relative flex items-center justify-center p-4">
+
+    <!-- Logo (alineado a la izquierda) -->
+    <div class="absolute left-4 flex items-center space-x-3">
+      <img src="<?php echo $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/ComanderaStore/public/img/logo-small.png'; ?>" 
+           alt="Logo" class="w-24 h-12 object-contain">
+      <span class="text-xl font-bold text-gray-700">Comandera Store</span>
     </div>
+
+    <!-- Reloj digital (centrado) -->
+    <div id="clock" class="bg-gray-900 text-blue-100 font-mono text-3xl px-6 py-2 rounded-md shadow-inner tracking-widest border border-gray-700"></div>
+
+  </div>
 </nav>
