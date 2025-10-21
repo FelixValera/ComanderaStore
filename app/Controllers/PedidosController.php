@@ -15,7 +15,7 @@ class PedidosController{
 
         $oaretisPendientes = $oaretis->getOaretis('0009','2025-10-16');*/
         
-        require_once __DIR__ . '/../views/pendientes.php';
+        require_once __DIR__ . '/../views/pedidos.php';
 
     }
 }

@@ -10,7 +10,7 @@ class SqlServerDataSource implements IdataSource {
     
     static public $instance=null;
 
-    private function __construct($serverName = SERVER_NAME,$dataBase = DATABASE,$user = USER,$password = PASSWORD){
+    private function __construct($serverName = SERVER_NAME_TEST,$dataBase = DATABASE,$user = USER,$password = PASSWORD){
         
         try {
 

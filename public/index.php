@@ -5,7 +5,10 @@ require_once __DIR__.'/../config.php';
 
 use App\Http\Request;
 use App\Http\Server;
+/*
+use Core\Database\SqlServerDataSource;
 
+$sql = SqlServerDataSource::getInstance();*/
 
 $server = new Server((new Request)->fromGlobal());
 
