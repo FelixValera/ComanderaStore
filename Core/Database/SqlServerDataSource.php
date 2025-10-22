@@ -16,8 +16,7 @@ class SqlServerDataSource implements IdataSource {
 
             $this->_pdo = new PDO("sqlsrv:Server=$serverName;Database=$dataBase", $user, $password);
             $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo "Conexión exitosa";
-
+            
         } catch (PDOException $e) {
 
             echo "Error de conexión: " . $e->getMessage();

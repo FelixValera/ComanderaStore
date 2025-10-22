@@ -146,8 +146,6 @@
 
             if (Notification.permission === "granted") {
 
-                console.log('me estoy ejecutando');
-
                 new Notification("Nueva orden disponible 🧾");
 
             }else if (Notification.permission !== "denied") {
