@@ -75,16 +75,3 @@ class Oareti {
         ];
     }
 }
-
-/*
-    H.FCRMVH_CODFOR,
-    H.FCRMVH_NROFOR,
-    H.USR_FCRMVH_CODFAC AS Factura,
-    H.USR_FCRMVH_NROFAC AS NroFactura,
-    H.FCRMVH_DEPOSI,
-    H.FCRMVH_NOMBRE,
-    H.FCRMVH_ESTAUT,
-    CAST(H.FCRMVH_FCHAUT AS DATE) AS Fecha,
-    FORMAT(H.FCRMVH_FCHAUT, 'HH:mm') AS Hora,
-    SUM(I.FCRMVI_CANTID) AS Pendiente
-*/

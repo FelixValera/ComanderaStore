@@ -36,11 +36,3 @@ class Item{
         return (int)$this->pendientes;
     }
 }
-
-/*
-    FCRMVI_TIPPRO, 
-    FCRMVI_ARTCOD, 
-    Producto.STMPDH_DESCRP, 
-    SUM(FCRMVI_CANTID) AS Pendiente 
-
-*/

@@ -174,4 +174,103 @@ class SqlServerDataSource implements IdataSource {
         return $response;
     }
 
+    public function getOdespaNuevas($order,$deposito,$dataTime)
+    {
+        $response=[];
+        $sql="
+        SELECT 
+            H.FCRMVH_CODFOR,
+            H.FCRMVH_NROFOR,
+            H.USR_FCRMVH_CODFAC AS Factura,
+            H.USR_FCRMVH_NROFAC AS NroFactura,
+            H.FCRMVH_DEPOSI,
+            H.FCRMVH_NOMBRE,
+            H.FCRMVH_FECALT AS fechaHora,
+            FORMAT(H.FCRMVH_FECALT, 'HH:mm') AS Hora,
+            SUM(I.FCRMVI_CANTID) AS Pendiente
+        FROM FCRMVH AS H
+        INNER JOIN FCRMVI AS I
+            ON I.FCRMVI_CODAPL = H.FCRMVH_CODFOR
+            AND I.FCRMVI_NROAPL = H.FCRMVH_NROFOR
+        WHERE 
+            H.FCRMVH_CODFOR = :order
+	        AND FCRMVH_DEPOSI = :deposito
+            AND H.FCRMVH_FECALT > :dataTime
+        GROUP BY 
+            H.FCRMVH_CODFOR, 
+            H.FCRMVH_NROFOR, 
+            H.USR_FCRMVH_CODFAC, 
+            H.USR_FCRMVH_NROFAC,
+	        H.FCRMVH_DEPOSI,
+            H.FCRMVH_NOMBRE, 
+            H.FCRMVH_FECALT
+        HAVING 
+            SUM(I.FCRMVI_CANTID) > 0
+        ORDER BY H.FCRMVH_FECALT;";
+        
+        $stmt= $this->_pdo->prepare($sql);
+        $stmt->bindValue(':order',$order);
+        $stmt->bindValue(':deposito',$deposito);
+        $stmt->bindValue(':dataTime',$dataTime);
+        $stmt->execute();
+
+        while($record = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            array_push($response,$record);
+        }
+
+        return $response;
+    }
+
+    public function getOaretiNuevas($order,$deposito,$dataTime){
+
+        $response=[];
+        $sql="
+        SELECT 
+            H.FCRMVH_CODFOR,
+            H.FCRMVH_NROFOR,
+            H.USR_FCRMVH_CODFAC AS Factura,
+            H.USR_FCRMVH_NROFAC AS NroFactura,
+            H.FCRMVH_DEPOSI,
+            H.FCRMVH_NOMBRE,
+            H.FCRMVH_ESTAUT,
+            H.FCRMVH_FCHAUT AS fechaHora,
+            FORMAT(H.FCRMVH_FCHAUT, 'HH:mm') AS Hora,
+            SUM(I.FCRMVI_CANTID) AS Pendiente
+        FROM FCRMVH AS H
+        INNER JOIN FCRMVI AS I
+            ON I.FCRMVI_CODAPL = H.FCRMVH_CODFOR
+            AND I.FCRMVI_NROAPL = H.FCRMVH_NROFOR
+        WHERE 
+            H.FCRMVH_CODFOR = :order
+            AND FCRMVH_DEPOSI = :deposito
+            AND H.FCRMVH_FCHAUT > :dataTime
+            AND H.FCRMVH_ESTAUT = 1
+        GROUP BY 
+            H.FCRMVH_CODFOR, 
+            H.FCRMVH_NROFOR, 
+            H.USR_FCRMVH_CODFAC, 
+            H.USR_FCRMVH_NROFAC,
+            H.FCRMVH_DEPOSI,
+            H.FCRMVH_NOMBRE, 
+            H.FCRMVH_ESTAUT, 
+            H.FCRMVH_FCHAUT
+        HAVING 
+            SUM(I.FCRMVI_CANTID) > 0
+        ORDER BY H.FCRMVH_FCHAUT;";
+        
+        $stmt= $this->_pdo->prepare($sql);
+        $stmt->bindValue(':order',$order);
+        $stmt->bindValue(':deposito',$deposito);
+        $stmt->bindValue(':dataTime',$dataTime);
+        $stmt->execute();
+
+        while($record = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            array_push($response,$record);
+        }
+
+        return $response;
+    }
+
 }

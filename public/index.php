@@ -6,12 +6,7 @@ require_once __DIR__.'/../config.php';
 use App\Http\Request;
 use App\Http\Server;
 use Core\Database\SqlServerDataSource;
-
-/* Prueba DB
-use Core\Database\SqlServerDataSource;
-
-$sql = SqlServerDataSource::getInstance();
-*/
+use App\Http\Middlewares\SessionStartMiddleware;
 
 $server = new Server((new Request)->fromGlobal());
 
@@ -22,6 +17,8 @@ $server->use(function($req,$middleware){
     
     $middleware->next($req);
 });
+
+$server->use(new SessionStartMiddleware());
 
 $server->router()->get('/ComanderaStore/','App\Controllers\PedidosController::PendientesBoedo1050');
 

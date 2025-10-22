@@ -71,15 +71,3 @@ class Odespa {
         ];
     }
 }
-
-/*
-    H.FCRMVH_CODFOR,
-    H.FCRMVH_NROFOR,
-    H.USR_FCRMVH_CODFAC AS Factura,
-    H.USR_FCRMVH_NROFAC AS NroFactura,
-    H.FCRMVH_DEPOSI,
-    H.FCRMVH_NOMBRE,
-    CAST(H.FCRMVH_FECALT AS DATE) AS Fecha,
-    FORMAT(H.FCRMVH_FECALT, 'HH:mm') AS Hora,
-    SUM(I.FCRMVI_CANTID) AS Pendiente
-*/

@@ -61,4 +61,18 @@ class OdespaRepository {
             return false;
         }
     }
+
+    public function getNuevas($deposito,$dataTime){
+        
+        $nuevas = $this->_dataSource->getOdespaNuevas('odespa',$deposito,$dataTime);
+
+        if(!empty($nuevas)){
+            
+            return true;
+        }
+        else{
+
+            return false;
+        }
+    }
 }

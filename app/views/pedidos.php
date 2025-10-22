@@ -7,6 +7,9 @@
     <!-- Barra superior -->
     <?php
         require_once __DIR__ . '/nav.html';
+
+        //Seteamos la fecha ultima_actualizacion
+        $_SESSION['ultima_actualizacion'] = date('Y-m-d H:i:s.v');
     ?>
 
     <main class="mt-[12vh] px-8">
@@ -21,7 +24,7 @@
                         <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300">
 
                             <!-- Encabezado de la orden -->
-                            <div class="<?php echo ($odespa->getDelay() > 20) ? 'bg-red-200' :( ($odespa->getDelay() > 10) ? 'bg-yellow-100' : 'bg-gray-100')?> p-5 text-gray-800 border-b border-gray-200">
+                            <div class="<?php echo ($odespa->getDelay() >= 20) ? 'bg-red-200' :( ($odespa->getDelay() >= 10) ? 'bg-yellow-100' : 'bg-gray-100')?> p-5 text-gray-800 border-b border-gray-200">
                                 <!-- Primera línea: número de orden grande -->
                                 <div class="flex justify-between items-center mb-2">
                                     <p class="font-bold text-2xl text-emerald-600">ODESPA #<?= $odespa->nrofor?></p>
@@ -72,7 +75,7 @@
                         <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300">
 
                             <!-- Encabezado de la orden -->
-                            <div class="<?php echo ($oareti->getDelay() > 20) ? 'bg-red-200' :( ($oareti->getDelay() > 10) ? 'bg-yellow-100' : 'bg-gray-100')?> p-5 text-gray-800 border-b border-gray-200">
+                            <div class="<?php echo ($oareti->getDelay() >= 20) ? 'bg-red-200' :( ($oareti->getDelay() >= 10) ? 'bg-yellow-100' : 'bg-gray-100')?> p-5 text-gray-800 border-b border-gray-200">
                                 <!-- Primera línea: número de orden grande -->
                                 <div class="flex justify-between items-center mb-2">
                                     <p class="font-bold text-2xl text-indigo-700">OARETI #<?= $oareti->nrofor?></p>
@@ -133,49 +136,31 @@
         <?php endif ?>
     
     </main>
-
+    
     <script src="<?php echo $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/ComanderaStore/public/js/script.js'; ?>"></script>
+
+    <!-- notificamos si hay ordenes nuevas -->
+
+    <?php if($nuevasOdespas || $nuevasOaretis): ?>
+        <script>
+
+            if (Notification.permission === "granted") {
+
+                console.log('me estoy ejecutando');
+
+                new Notification("Nueva orden disponible 🧾");
+
+            }else if (Notification.permission !== "denied") {
+
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                    new Notification("Notificaciones activadas ✅");
+                    }
+                });
+            }
+        
+        </script>
+    <?php endif ?>
+
 </body>
 </html>
-
-<?php /*
-
-    🧩 Sugerencias para mejorarlo en pantallas grandes
-
-    Podés agregar tres pequeños ajustes:
-
-    1️⃣ Limitar el ancho máximo del contenido central
-
-    Para que las tarjetas no se expandan demasiado en TVs 4K:
-
-    <main class="mt-[12vh] px-8 max-w-[95vw] mx-auto">
-
-
-    → Evita que las tarjetas queden muy separadas o pegadas a los bordes.
-
-    2️⃣ Dar un ancho mínimo a las tarjetas
-
-    Así evitás que las columnas se aplasten en pantallas medianas:
-
-    <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 min-w-[420px]">
-
-    3️⃣ Añadir un pequeño margen inferior al grid
-
-    Por ejemplo:
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-8 justify-center mb-[5vh]">
-
-
-    → Evita que las tarjetas queden “pegadas” al borde inferior del TV. 
-    
-        <tr class="border-b hover:bg-gray-50">
-
-            <td class="py-4 px-2 font-mono font-bold text-3xl text-gray-800 text-center">
-                <?= $item->articulo ?>
-            </td>
-            <td class="py-4 px-2 text-lg"><?= $item->descripcion ?></td>
-            <td class="py-4 px-2 text-right font-semibold text-2xl"><?= $item->getPendientes() ?></td>
-
-        </tr>
-    
-    */ ?>

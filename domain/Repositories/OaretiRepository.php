@@ -62,4 +62,18 @@ class OaretiRepository {
             return false;
         }
     }
+    
+    public function getNuevas($deposito,$dataTime){
+        
+        $nuevas = $this->_dataSource->getOaretiNuevas('oareti',$deposito,$dataTime);
+        
+        if(!empty($nuevas)){
+            
+            return true;
+        }
+        else{
+
+            return false;
+        }
+    }
 }
