@@ -52,8 +52,10 @@ class Odespa {
         
         // Calcular la diferencia
         $diferencia = $horaActual->diff($horaProporcionada);
+
+        $diferenciaMinutos = ($diferencia->h * 60) + $diferencia->i;
         
-        return $diferencia->i;
+        return  $diferenciaMinutos;
     }
     
     public function toArray(){

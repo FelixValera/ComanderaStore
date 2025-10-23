@@ -56,7 +56,9 @@ class Oareti {
         // Calcular la diferencia
         $diferencia = $horaActual->diff($horaProporcionada);
         
-        return $diferencia->i;
+        $diferenciaMinutos = ($diferencia->h * 60) + $diferencia->i;
+        
+        return  $diferenciaMinutos;
     }
 
     public function toArray(){
