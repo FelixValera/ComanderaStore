@@ -8,8 +8,8 @@ class PedidosController{
 
     public static function PendientesBoedo1050($req,$param){
         
-        $date = date('Y-m-d'); //fecha actual
-        //$date = '2025-10-16';  //fecha de test
+        //$date = date('Y-m-d'); //fecha actual
+        $date = '2025-10-16';  //fecha de test
         
         $odespas = new OdespaRepository($req->dataSource);
         $oaretis = new OaretiRepository($req->dataSource);

@@ -3,12 +3,10 @@
 require_once __DIR__ . '/../autoload.php';
 require_once __DIR__.'/../config.php';
 
-/*
 use App\Http\Request;
 use App\Http\Server;
 use Core\Database\SqlServerDataSource;
 use App\Http\Middlewares\SessionStartMiddleware;
-
 
 $server = new Server((new Request)->fromGlobal());
 
@@ -20,12 +18,21 @@ $server->use(function($req,$middleware){
     $middleware->next($req);
 });
 
-$server->use(new SessionStartMiddleware());
+//Si no es una ruta de api carga las siguientes
+$server->not('/api',function($server){
 
-$server->router()->get('/ComanderaStore/','App\Controllers\PedidosController::PendientesBoedo1050');
+    $server->use(new SessionStartMiddleware());
+
+    $server->router()->get('/ComanderaStore/','App\Controllers\PedidosController::PendientesBoedo1050');
+});
+
+//Si la ruta es una cargamos las siguientes rutas
+$server->if('/api',function($server){
+
+    $server->router()->post('/ComanderaStore/api/tomar_orden','App\Controllers\ApiController::TomarOrden');
+});
 
 $server->handler();
-*/
 
 /* ---------- Probando los Repository y las Entidades ----------
 

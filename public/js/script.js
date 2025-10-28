@@ -1,4 +1,4 @@
-// URL a la que se redirige
+/* URL a la que se redirige
 const urlActual = window.location.href;
 
 // Intervalo en milisegundos (por ejemplo, 1 minuto = 60000 ms)
@@ -10,7 +10,7 @@ window.location.href = urlActual;
 }
 
 // Ejecuta la función cada cierto tiempo
-setInterval(refrescarPagina, intervalo);
+setInterval(refrescarPagina, intervalo);*/
 
 
 function updateClock() {
@@ -26,3 +26,6 @@ function updateClock() {
 setInterval(updateClock, 1000);
 // Mostrar inmediatamente al cargar
 updateClock();
+
+
+//---------so

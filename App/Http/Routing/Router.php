@@ -52,6 +52,11 @@ class Router{
         return $this;
     }
 
+    public function Routes(){
+
+        return $this->_routes;
+    }
+
     public function handler($request){
 
         foreach($this->_routes as $router){
@@ -70,5 +75,4 @@ class Router{
         echo "<h1 style = 'color:white; text-align:center;'>Error la pagina no existe :(</h1>";
         echo "</body>";
     }
-
 }
