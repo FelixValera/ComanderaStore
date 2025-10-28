@@ -10,7 +10,7 @@ class SqlServerDataSource implements IdataSource {
     
     static public $instance=null;
 
-    private function __construct($serverName = SERVER_NAME,$dataBase = DATABASE,$user = USER,$password = PASSWORD){
+    private function __construct($serverName = SERVER_NAME_TEST,$dataBase = DATABASE,$user = USER,$password = PASSWORD){
         
         try {
 
@@ -20,6 +20,7 @@ class SqlServerDataSource implements IdataSource {
         } catch (PDOException $e) {
 
             echo "Error de conexión: " . $e->getMessage();
+            exit;
         }
     }
 
@@ -72,7 +73,14 @@ class SqlServerDataSource implements IdataSource {
         $stmt->bindValue(':order',$order);
         $stmt->bindValue(':deposito',$deposito);
         $stmt->bindValue(':fecha',$fecha);
-        $stmt->execute();
+        
+        try{
+            $stmt->execute();
+        }
+        catch(PDOException $e){
+            var_dump($e->errorInfo);
+            exit;
+        }
 
         while($record = $stmt->fetch(PDO::FETCH_ASSOC)){
 
@@ -123,7 +131,14 @@ class SqlServerDataSource implements IdataSource {
         $stmt->bindValue(':order',$order);
         $stmt->bindValue(':deposito',$deposito);
         $stmt->bindValue(':fecha',$fecha);
-        $stmt->execute();
+        
+        try{
+            $stmt->execute();
+        }
+        catch(PDOException $e){
+            var_dump($e->errorInfo);
+            exit;
+        }
 
         while($record = $stmt->fetch(PDO::FETCH_ASSOC)){
 
@@ -163,7 +178,14 @@ class SqlServerDataSource implements IdataSource {
         $stmt= $this->_pdo->prepare($sql);
         $stmt->bindValue(':order',$order);
         $stmt->bindValue(':nroOrder',$nroOrder);
-        $stmt->execute();
+        
+        try{
+            $stmt->execute();
+        }
+        catch(PDOException $e){
+            var_dump($e->errorInfo);
+            exit;
+        }
 
         while($record = $stmt->fetch(PDO::FETCH_ASSOC)){
 
@@ -211,7 +233,14 @@ class SqlServerDataSource implements IdataSource {
         $stmt->bindValue(':order',$order);
         $stmt->bindValue(':deposito',$deposito);
         $stmt->bindValue(':dataTime',$dataTime);
-        $stmt->execute();
+        
+        try{
+            $stmt->execute();
+        }
+        catch(PDOException $e){
+            var_dump($e->errorInfo);
+            exit;
+        }
 
         while($record = $stmt->fetch(PDO::FETCH_ASSOC)){
 
@@ -221,7 +250,8 @@ class SqlServerDataSource implements IdataSource {
         return $response;
     }
 
-    public function getOaretiNuevas($order,$deposito,$dataTime){
+    public function getOaretiNuevas($order,$deposito,$dataTime)
+    {
 
         $response=[];
         $sql="
@@ -262,7 +292,14 @@ class SqlServerDataSource implements IdataSource {
         $stmt->bindValue(':order',$order);
         $stmt->bindValue(':deposito',$deposito);
         $stmt->bindValue(':dataTime',$dataTime);
-        $stmt->execute();
+        
+        try{
+            $stmt->execute();
+        }
+        catch(PDOException $e){
+            var_dump($e->errorInfo);
+            exit;
+        }
 
         while($record = $stmt->fetch(PDO::FETCH_ASSOC)){
 
@@ -270,6 +307,117 @@ class SqlServerDataSource implements IdataSource {
         }
 
         return $response;
+    }
+
+    public function create($table,array $data)
+    {
+
+        $fieldstring='';
+        $valuestring='';
+
+        foreach($data as $key => $value){
+
+            $fieldstring.= "$key,";
+            $valuestring.= ":$key,";
+        }
+
+        $fieldstring = rtrim($fieldstring,',');
+        $valuestring = rtrim($valuestring,',');
+
+        $sql= "INSERT INTO $table ($fieldstring) VALUES ($valuestring)";
+
+        $stmt= $this->_pdo->prepare($sql);
+
+        foreach($data as $key => $value){
+
+            $stmt->bindValue(":$key",$value);
+        }
+
+        try{
+            $stmt->execute();
+        }
+        catch(PDOException $e){
+
+            var_dump($e->errorInfo);
+            exit;
+        }
+
+        return true;
+    }
+
+    public function getOtomadas($deposi,$fecha)
+    {
+
+        $response = [];
+        $sql = "SELECT CODFOR,NROFOR,DEPOSI,FECALT FROM OrderFlow.dbo.ordenes_tomadas WHERE DEPOSI = :deposi AND CAST(FECALT AS DATE) = :fecha";
+        
+        $stmt = $this->_pdo->prepare($sql);
+
+        $stmt->bindValue(':deposi',$deposi);
+        $stmt->bindValue(':fecha',$fecha);
+        
+        try{
+            $stmt->execute();
+        }
+        catch(PDOException $e){
+            var_dump($e->errorInfo);
+            exit;
+        }
+        
+        while($record = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            array_push($response,$record);
+        }
+
+        return $response;
+    }
+
+    //Elimina las ordenes que ya no estan pendientes
+    public function deleteOtomadas($deposi,$fecha)
+    {
+        $sql="
+        DELETE OrderFlow.dbo.ordenes_tomadas
+        WHERE OrderFlow.dbo.ordenes_tomadas.DEPOSI = ?
+        AND NOT EXISTS (
+            SELECT 1
+            FROM FCRMVH AS H
+            INNER JOIN FCRMVI AS I
+                ON I.FCRMVI_CODAPL = H.FCRMVH_CODFOR
+                AND I.FCRMVI_NROAPL = H.FCRMVH_NROFOR
+            WHERE 
+                (
+                    (H.FCRMVH_CODFOR = 'ODESPA' AND CAST(H.FCRMVH_FECALT AS DATE) = ?)
+                    OR
+                    (H.FCRMVH_CODFOR = 'OARETI' AND H.FCRMVH_ESTAUT = 1 AND CAST(H.FCRMVH_FCHAUT AS DATE) = ?)
+                )
+                AND H.FCRMVH_DEPOSI = ?
+                AND H.FCRMVH_CODFOR = OrderFlow.dbo.ordenes_tomadas.CODFOR
+                AND H.FCRMVH_NROFOR = OrderFlow.dbo.ordenes_tomadas.NROFOR
+                AND H.FCRMVH_DEPOSI = OrderFlow.dbo.ordenes_tomadas.DEPOSI
+            GROUP BY 
+                H.FCRMVH_CODFOR, 
+                H.FCRMVH_NROFOR, 
+                H.FCRMVH_DEPOSI
+            HAVING SUM(I.FCRMVI_CANTID) > 0
+        );";
+        
+        $stmt= $this->_pdo->prepare($sql);
+        
+        $stmt->bindValue(1, $deposi, PDO::PARAM_STR);
+        $stmt->bindValue(2, $fecha, PDO::PARAM_STR);
+        $stmt->bindValue(3, $fecha, PDO::PARAM_STR);
+        $stmt->bindValue(4, $deposi, PDO::PARAM_STR);
+
+        try{
+            $stmt->execute();
+        }
+        catch(PDOException $e){
+
+            var_dump($e->errorInfo);
+            exit;
+        }
+
+        return true;
     }
 
 }
