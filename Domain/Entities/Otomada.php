@@ -6,7 +6,7 @@ class Otomada {
     public $codfor;
     public $nrofor;
     public $deposi;
-    public $dataTime;
+    public $dateTime;
     
     public function __construct(
         $codfor = '',
@@ -17,7 +17,7 @@ class Otomada {
         $this->codfor = $codfor;
         $this->nrofor = $nrofor;
         $this->deposi = $deposi;
-        $this->dataTime = $dataTime;
+        $this->dateTime = $dataTime;
     }
 
     public function toArray(){
@@ -26,7 +26,7 @@ class Otomada {
             'CODFOR' => $this->codfor,
             'NROFOR' => $this->nrofor,
             'DEPOSI' => $this->deposi,
-            'FECALT' => $this->dataTime,
+            'FECALT' => $this->dateTime,
         ];
     }
 }

@@ -32,6 +32,7 @@ class OaretiRepository {
                     $valor['NroFactura'],
                     $valor['FCRMVH_DEPOSI'],
                     $valor['FCRMVH_NOMBRE'],
+                    $valor['Vendedor'],
                     $valor['FCRMVH_ESTAUT'],
                     $valor['Fecha'],
                     $valor['Hora'],

@@ -24,21 +24,21 @@ class OtomadasRepository {
 
         $result = [];
 
-        $odespas = $this->_dataSource->getOtomadas($deposi,$fecha);
+        $oTomadas = $this->_dataSource->getOtomadas($deposi,$fecha);
 
         //Si no esta vacio 
-        if(!empty($odespas)){   
+        if(!empty($oTomadas)){   
 
-            foreach ($odespas as $valor){
+            foreach ($oTomadas as $valor){
 
-                $odespa = new Otomada(
+                $oTomada = new Otomada(
                     $valor['CODFOR'],
                     $valor['NROFOR'],
                     $valor['DEPOSI'],
                     $valor['FECALT'],
                 );
 
-                array_push($result,$odespa);
+                array_push($result,$oTomada);
             }
 
             return $result;
@@ -55,5 +55,4 @@ class OtomadasRepository {
 
         return $response;
     }
-
 }

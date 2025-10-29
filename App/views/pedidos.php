@@ -23,6 +23,14 @@
 
                         <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300">
 
+                            <button 
+                                class="tomar-orden bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded mt-3" 
+                                data-codfor="ODESPA" 
+                                data-nrofor="<?= $odespa->nrofor ?>"
+                                data-deposi="<?= $odespa->deposi ?>"
+
+                            >Tomar orden</button>
+                            
                             <!-- Encabezado de la orden -->
                             <div class="<?php echo ($odespa->getDelay() >= 20) ? 'bg-red-200' :( ($odespa->getDelay() >= 10) ? 'bg-yellow-100' : 'bg-gray-100')?> p-5 text-gray-800 border-b border-gray-200">
                                 <!-- Primera línea: número de orden grande -->
@@ -35,6 +43,7 @@
                                 <div class="flex flex-wrap justify-between text-lg">
                                     <p>Cliente: <span class="font-semibold"><?=$odespa->nombre?></span></p>
                                     <p>Factura: <span class="font-semibold text-xl"><?=$odespa->codfac.'-'.$odespa->nrofac?></span></p>
+                                    <p>Vendedor: <span class="font-semibold"><?=$odespa->vendedor?></span></p>
                                 </div>
                             </div>
 
@@ -74,6 +83,14 @@
 
                         <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300">
 
+                            <button 
+                                class="tomar-orden bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded mt-3" 
+                                data-codfor="OARETI" 
+                                data-nrofor="<?= $oareti->nrofor ?>"
+                                data-deposi="<?= $oareti->deposi ?>"
+
+                            >Tomar orden</button>
+
                             <!-- Encabezado de la orden -->
                             <div class="<?php echo ($oareti->getDelay() >= 20) ? 'bg-red-200' :( ($oareti->getDelay() >= 10) ? 'bg-yellow-100' : 'bg-gray-100')?> p-5 text-gray-800 border-b border-gray-200">
                                 <!-- Primera línea: número de orden grande -->
@@ -86,6 +103,7 @@
                                 <div class="flex flex-wrap justify-between text-lg">
                                     <p>Cliente: <span class="font-semibold"><?=$oareti->nombre?></span></p>
                                     <p>Factura: <span class="font-semibold text-xl"><?=$oareti->codfac.'-'.$oareti->nrofac?></span></p>
+                                    <p>Vendedor: <span class="font-semibold"><?=$oareti->vendedor?></span></p>
                                 </div>
                             </div>
 
@@ -134,6 +152,8 @@
             </div>
 
         <?php endif ?>
+
+        <input type="hidden" id="deposito" value="<?= $deposito ?>">
     
     </main>
     

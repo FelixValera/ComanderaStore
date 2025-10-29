@@ -32,6 +32,7 @@ class OdespaRepository {
                     $valor['NroFactura'],
                     $valor['FCRMVH_DEPOSI'],
                     $valor['FCRMVH_NOMBRE'],
+                    $valor['Vendedor'],
                     $valor['Fecha'],
                     $valor['Hora'],
                     $valor['Pendiente']

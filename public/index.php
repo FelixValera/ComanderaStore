@@ -18,7 +18,7 @@ $server->use(function($req,$middleware){
     $middleware->next($req);
 });
 
-//Si no es una ruta de api carga las siguientes
+//Si la uri no tiene API carga las siguientes rutas
 $server->not('/api',function($server){
 
     $server->use(new SessionStartMiddleware());
@@ -26,33 +26,12 @@ $server->not('/api',function($server){
     $server->router()->get('/ComanderaStore/','App\Controllers\PedidosController::PendientesBoedo1050');
 });
 
-//Si la ruta es una cargamos las siguientes rutas
+//Si la uri tiene API carga las siguientes rutas
 $server->if('/api',function($server){
 
-    $server->router()->post('/ComanderaStore/api/tomar_orden','App\Controllers\ApiController::TomarOrden');
+    $server->router()->post('/ComanderaStore/api/tomar_orden','App\Controllers\ApiController::TomarOrden')
+
+    ->get('/ComanderaStore/api/ordenes_tomadas/(\w+)','App\Controllers\ApiController::GetOrdenesTomadas');
 });
 
 $server->handler();
-
-/* ---------- Probando los Repository y las Entidades ----------
-
-use Core\Database\SqlServerDataSource;
-Use Domain\Repositories\OtomadasRepository;
-use Domain\Entities\Otomada;
-
-//$date = date('Y-m-d H:i:s.v');
-
-$date = date('Y-m-d');
-
-//$otomada = new Otomada('ODESPA','159783','0009',$date);
-
-$otomadaRepository = new OtomadasRepository(SqlServerDataSource::getInstance());
-//$response = $otomadaRepository->create($otomada);
-
-$response = $otomadaRepository->getOtomadas('0009','2025-10-27');
-
-var_dump($response);
-
-die();
-
-*/

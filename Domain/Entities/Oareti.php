@@ -10,6 +10,7 @@ class Oareti {
     public $nrofac;
     public $deposi;
     public $nombre;
+    public $vendedor;
     public $estaut;
     public $fechaAut;
     public $hora;
@@ -22,6 +23,7 @@ class Oareti {
         $nrofac = '',
         $deposi = '',
         $nombre = '',
+        $vendedor = '',
         $estaut = '',
         $fechaAut = '',
         $hora = '',
@@ -33,6 +35,7 @@ class Oareti {
         $this->nrofac = $nrofac;
         $this->deposi = $deposi;
         $this->nombre = $nombre;
+        $this->vendedor = $vendedor;
         $this->estaut = $estaut;
         $this->fechaAut = $fechaAut;
         $this->hora = $hora;
@@ -70,6 +73,7 @@ class Oareti {
             'nrofac' => $this->nrofac,
             'deposi' => $this->deposi,
             'nombre' => $this->nombre,
+            'vendedor' => $this->vendedor,
             'estaut' => $this->estaut,
             'fechaAut' => $this->fechaAut,
             'hora' => $this->hora,

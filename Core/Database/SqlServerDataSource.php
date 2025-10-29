@@ -10,7 +10,7 @@ class SqlServerDataSource implements IdataSource {
     
     static public $instance=null;
 
-    private function __construct($serverName = SERVER_NAME_TEST,$dataBase = DATABASE,$user = USER,$password = PASSWORD){
+    private function __construct($serverName = SERVER_NAME,$dataBase = DATABASE,$user = USER,$password = PASSWORD){
         
         try {
 
@@ -46,6 +46,7 @@ class SqlServerDataSource implements IdataSource {
             H.USR_FCRMVH_NROFAC AS NroFactura,
             H.FCRMVH_DEPOSI,
             H.FCRMVH_NOMBRE,
+            V.DescripcionVendedor AS Vendedor,
             CAST(H.FCRMVH_FECALT AS DATE) AS Fecha,
             FORMAT(H.FCRMVH_FECALT, 'HH:mm') AS Hora,
             SUM(I.FCRMVI_CANTID) AS Pendiente
@@ -53,6 +54,8 @@ class SqlServerDataSource implements IdataSource {
         INNER JOIN FCRMVI AS I
             ON I.FCRMVI_CODAPL = H.FCRMVH_CODFOR
             AND I.FCRMVI_NROAPL = H.FCRMVH_NROFOR
+        INNER JOIN INFOC_Vendedores AS V
+	        ON H.FCRMVH_VNDDOR = CodigoVendedor
         WHERE 
             H.FCRMVH_CODFOR = :order
 	        AND FCRMVH_DEPOSI = :deposito
@@ -63,7 +66,8 @@ class SqlServerDataSource implements IdataSource {
             H.USR_FCRMVH_CODFAC, 
             H.USR_FCRMVH_NROFAC,
 	        H.FCRMVH_DEPOSI,
-            H.FCRMVH_NOMBRE, 
+            H.FCRMVH_NOMBRE,
+            V.DescripcionVendedor, 
             H.FCRMVH_FECALT
         HAVING 
             SUM(I.FCRMVI_CANTID) > 0
@@ -101,6 +105,7 @@ class SqlServerDataSource implements IdataSource {
             H.USR_FCRMVH_NROFAC AS NroFactura,
             H.FCRMVH_DEPOSI,
             H.FCRMVH_NOMBRE,
+            V.DescripcionVendedor AS Vendedor,
             H.FCRMVH_ESTAUT,
             CAST(H.FCRMVH_FCHAUT AS DATE) AS Fecha,
             FORMAT(H.FCRMVH_FCHAUT, 'HH:mm') AS Hora,
@@ -109,6 +114,8 @@ class SqlServerDataSource implements IdataSource {
         INNER JOIN FCRMVI AS I
             ON I.FCRMVI_CODAPL = H.FCRMVH_CODFOR
             AND I.FCRMVI_NROAPL = H.FCRMVH_NROFOR
+        INNER JOIN INFOC_Vendedores AS V
+	        ON H.FCRMVH_VNDDOR = CodigoVendedor
         WHERE 
             H.FCRMVH_CODFOR = :order
             AND FCRMVH_DEPOSI = :deposito
@@ -120,7 +127,8 @@ class SqlServerDataSource implements IdataSource {
             H.USR_FCRMVH_CODFAC, 
             H.USR_FCRMVH_NROFAC,
             H.FCRMVH_DEPOSI,
-            H.FCRMVH_NOMBRE, 
+            H.FCRMVH_NOMBRE,
+            V.DescripcionVendedor, 
             H.FCRMVH_ESTAUT, 
             H.FCRMVH_FCHAUT
         HAVING 
@@ -338,11 +346,10 @@ class SqlServerDataSource implements IdataSource {
         }
         catch(PDOException $e){
 
-            var_dump($e->errorInfo);
-            exit;
+            return ['error' => $e->errorInfo];
         }
 
-        return true;
+        return ['ok' => true];
     }
 
     public function getOtomadas($deposi,$fecha)
