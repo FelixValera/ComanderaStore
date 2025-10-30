@@ -18,8 +18,20 @@ $server->use(function($req,$middleware){
     $middleware->next($req);
 });
 
-$server->use(new SessionStartMiddleware());
+//Si la uri no tiene API carga las siguientes rutas
+$server->not('/api',function($server){
 
-$server->router()->get('/ComanderaStore/','App\Controllers\PedidosController::PendientesBoedo1050');
+    $server->use(new SessionStartMiddleware());
+
+    $server->router()->get('/ComanderaStore/','App\Controllers\PedidosController::PendientesBoedo1050');
+});
+
+//Si la uri tiene API carga las siguientes rutas
+$server->if('/api',function($server){
+
+    $server->router()->post('/ComanderaStore/api/tomar_orden','App\Controllers\ApiController::TomarOrden')
+
+    ->get('/ComanderaStore/api/ordenes_tomadas/(\w+)','App\Controllers\ApiController::GetOrdenesTomadas');
+});
 
 $server->handler();

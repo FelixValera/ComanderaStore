@@ -36,6 +36,20 @@ class Server{
         }
     }
 
+    public function if($url,$configCallback){  //Si es una API se agregan determinadas rutas 
+
+        if($this->_request->uriStartWitch($url)){
+            $configCallback($this);
+        }
+    }
+
+    public function not($url,$configCallback){
+
+        if(!$this->_request->uriStartWitch($url)){
+            $configCallback($this);
+        }
+    }
+
     public function handler(){
 
         $this->use(new RoutingMiddleware($this->_router));

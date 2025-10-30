@@ -38,7 +38,7 @@ class Request{
 
     public function uriStartWitch($search){
 
-        return (substr($this->_uri,0,strlen($search)) === $search);
+        return (substr($this->_uri,15,4) === $search);
     }
     
     public function fromGlobal(){

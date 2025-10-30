@@ -10,6 +10,7 @@ class Odespa {
     public $nrofac;
     public $deposi;
     public $nombre;
+    public $vendedor;
     public $fecha;
     public $hora;
     public $pendientes;
@@ -21,6 +22,7 @@ class Odespa {
         $nrofac = '',
         $deposi = '',
         $nombre = '',
+        $vendedor = '',
         $fecha = '',
         $hora = '',
         $pendientes = ''
@@ -31,6 +33,7 @@ class Odespa {
         $this->nrofac = $nrofac;
         $this->deposi = $deposi;
         $this->nombre = $nombre;
+        $this->vendedor = $vendedor;
         $this->fecha = $fecha;
         $this->hora = $hora;
         $this->pendientes = $pendientes;
@@ -67,6 +70,7 @@ class Odespa {
             'nrofac' => $this->nrofac,
             'deposi' => $this->deposi,
             'nombre' => $this->nombre,
+            'vendedor' => $this->vendedor,
             'fechaAut' => $this->fecha,
             'hora' => $this->hora,
             'pendientes' => $this->pendientes
