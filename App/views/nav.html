@@ -11,5 +11,19 @@
     <!-- Reloj digital (centrado) -->
     <div id="clock" class="bg-gray-900 text-blue-100 font-mono text-3xl px-6 py-2 rounded-md shadow-inner tracking-widest border border-gray-700"></div>
 
+    <!-- Nombre del depósito (alineado a la derecha) -->
+    <div class="absolute right-6 text-sky-700 font-semibold text-xl tracking-wide flex items-center space-x-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-sky-500" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M19.5 8a7.5 7.5 0 10-15 0c0 4.5 7.5 13 7.5 13s7.5-8.5 7.5-13z" />
+      </svg>
+      <span>
+        <?= $sucursal; ?>
+      </span>
+    </div>
+
   </div>
 </nav>

@@ -23,7 +23,9 @@ $server->not('/api',function($server){
 
     $server->use(new SessionStartMiddleware());
 
-    $server->router()->get('/ComanderaStore/','App\Controllers\PedidosController::PendientesBoedo1050');
+    $server->router()->get('/ComanderaStore/','App\Controllers\PedidosController::PendientesBoedo1050')
+
+    ->get('/ComanderaStore/Cabildo','App\Controllers\PedidosController::Cabildo');
 });
 
 //Si la uri tiene API carga las siguientes rutas
