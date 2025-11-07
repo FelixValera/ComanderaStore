@@ -71,7 +71,7 @@ class SqlServerDataSource implements IdataSource {
             H.FCRMVH_FECALT
         HAVING 
             SUM(I.FCRMVI_CANTID) > 0
-        ORDER BY H.FCRMVH_FECALT;";
+        ORDER BY H.FCRMVH_FECALT DESC;";
         
         $stmt= $this->_pdo->prepare($sql);
         $stmt->bindValue(':order',$order);
@@ -133,7 +133,7 @@ class SqlServerDataSource implements IdataSource {
             H.FCRMVH_FCHAUT
         HAVING 
             SUM(I.FCRMVI_CANTID) > 0
-        ORDER BY H.FCRMVH_FCHAUT;";
+        ORDER BY H.FCRMVH_FCHAUT DESC;";
         
         $stmt= $this->_pdo->prepare($sql);
         $stmt->bindValue(':order',$order);
