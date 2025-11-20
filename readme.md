@@ -55,14 +55,14 @@ C:.
 │       ├── OdespaRepository.php
 │       └── OtomadasRepository.php
 │
-├── public
-│   └── index.php
-│
-├── img
-│   └── logo-small.png
-│
-└── js
-    └── script.js
+└── public
+    ├── index.php
+    │
+    ├── img
+    │   └── logo-small.png
+    │
+    └── js
+        └── script.js
 ```
 ---
 
