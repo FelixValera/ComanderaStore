@@ -16,7 +16,7 @@ interface IdataSource{
 
     public function create($table,array $data);
 
-    public function deleteOtomadas($deposi,$fecha);
-
     public function getOtomadas($deposi,$fecha);
+
+    public function deleteOtomadas($deposi,$fecha);
 }
