@@ -6,7 +6,7 @@ const intervalo = 30000;
 
 // Función que redirige a la URI
 function refrescarPagina() {
-window.location.href = urlActual;
+    window.location.href = urlActual;
 }
 
 // Ejecuta la función cada cierto tiempo
@@ -38,43 +38,87 @@ document.querySelectorAll('.tomar-orden').forEach(btn => {
         const nrofor = btn.dataset.nrofor;
         const deposi = btn.dataset.deposi;
 
-        // 1. Enviamos la orden al servidor para marcarla como tomada
-        const res = await fetch('/ComanderaStore/api/tomar_orden', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ codfor, nrofor, deposi })
+        //validamos si la orden fue tomada antes 
+        const res = await fetch(`/ComanderaStore/api/ordenes_tomadas/${deposi}`,{
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
         });
 
-        const data = await res.json();
+        const tomadas = await res.json();
+
+        const ordenesTomadas = Array.isArray(tomadas) ? tomadas : Object.values(tomadas || {});
         
-        if (data.ok){
+        const encontrada = ordenesTomadas.some(o =>
 
-            // Cambiar color de fondo de la tarjeta
-            const card = btn.closest('div.bg-white');
-            card.classList.remove('bg-white');
-            card.classList.add(
-                'bg-sky-100',       // Fondo gris claro
-                'border', 
-                'border-sky-300',   // Borde gris tenue
-                'shadow-inner'       // Efecto suave de sombra interior
-            );
+            o.codfor === codfor &&
+            o.nrofor == nrofor &&
+            o.deposi === deposi
+        );
 
-            // Desactivar botón y cambiar estilo
+        if (encontrada) {
+            
+            mostrarToast("Esta orden ya fue tomada. Recargando...","error");
+            
             btn.disabled = true;
-            btn.textContent = 'En preparación...';
-
-            // Agregar clases de "deshabilitado"
+            btn.textContent = "Sincronizando...";
             btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-600', 'text-white');
             btn.classList.add(
                 'bg-sky-500',       // Botón gris medio
                 'text-white',
                 'cursor-not-allowed',
                 'opacity-70',
-                'hover:bg-gray-500'  // Quita el efecto hover
+                'hover:bg-gray-500',  // Quita el efecto hover
+                'animate-pulse'
             );
+
+            // 3. Refrescar tras un breve delay
+            
+            setTimeout(() => {
+               refrescarPagina();
+            }, 3000);
+
+            return;
         }
-        else{
-            console.log(data);
+        else {
+
+            // 1. Enviamos la orden al servidor para marcarla como tomada
+            const res = await fetch('/ComanderaStore/api/tomar_orden', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ codfor, nrofor, deposi })
+            });
+
+            const data = await res.json();
+        
+            if (data.ok){
+
+                // Cambiar color de fondo de la tarjeta
+                const card = btn.closest('div.bg-white');
+                card.classList.remove('bg-white');
+                card.classList.add(
+                    'bg-sky-100',       // Fondo gris claro
+                    'border', 
+                    'border-sky-300',   // Borde gris tenue
+                    'shadow-inner'       // Efecto suave de sombra interior
+                );
+
+                // Desactivar botón y cambiar estilo
+                btn.disabled = true;
+                btn.textContent = 'En preparación...';
+
+                // Agregar clases de "deshabilitado"
+                btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-600', 'text-white');
+                btn.classList.add(
+                    'bg-sky-500',       // Botón gris medio
+                    'text-white',
+                    'cursor-not-allowed',
+                    'opacity-70',
+                    'hover:bg-gray-500'  // Quita el efecto hover
+                );
+            }
+            else{
+                console.log(data);
+            }
         }
     });
 });
@@ -139,3 +183,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
 });
+
+
+//---------Mensaje tipo Toast --------------------
+
+function mostrarToast(mensaje, tipo = 'error') {
+    // Crear el contenedor del Toast
+    const toast = document.createElement('div');
+    
+    // Definir colores según el tipo
+    const bgColor = tipo === 'error' ? 'bg-red-600' : 'bg-amber-600';
+
+    // Clases de Tailwind para posicionamiento, diseño y animación
+    toast.className = `fixed top-10 left-1/2 -translate-x-1/2 z-[100] 
+                       ${bgColor} text-white px-6 py-3 rounded-lg shadow-xl 
+                       flex items-center space-x-2 whitespace-nowrap`;
+    
+    // Contenido con un icono simple
+    toast.innerHTML = `
+        <span>${tipo === 'error' ? '⚠️' : '🚫'}</span>
+        <span>${mensaje}</span>
+    `;
+
+    document.body.appendChild(toast);
+}

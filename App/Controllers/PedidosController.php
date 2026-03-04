@@ -12,7 +12,7 @@ class PedidosController{
         $deposito = '0009';
         $sucursal = 'BOEDO 1050';
         $date = date('Y-m-d'); //fecha actual
-        //$date = '2025-10-16'; //fecha de prueba
+        //$date = '2026-01-19'; //fecha de prueba
 
         $odespas = new OdespaRepository($req->dataSource);
         $oaretis = new OaretiRepository($req->dataSource);
